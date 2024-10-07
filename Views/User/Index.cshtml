@@ -1,0 +1,105 @@
+﻿@model IEnumerable<User_Management.Models.UserDetail>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<p style="margin-top: 20px;">
+    <input type="text" id="searchTerm" placeholder="Type to search..." class="form-control" onkeyup="filterTable()" />
+</p>
+
+<table id="userTable" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DOB)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Gender)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.FirstName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.LastName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DOB)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Gender)
+                </td>
+                <td>
+                    <a href="#" class="btn btn-info" data-toggle="modal" data-target="#detailsModal" onclick="openDetailsModal('@item.FirstName', '@item.LastName', '@item.DOB', '@item.Gender')">Details</a>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-primary" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Details Modal -->
+<div class="modal fade" id="detailsModal" tabindex="-1" role="dialog" aria-labelledby="detailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="detailsModalLabel">User Details</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p><strong>First Name:</strong> <span id="detailFirstName"></span></p>
+                <p><strong>Last Name:</strong> <span id="detailLastName"></span></p>
+                <p><strong>Date of Birth:</strong> <span id="detailDOB"></span></p>
+                <p><strong>Gender:</strong> <span id="detailGender"></span></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function filterTable() {
+        var input = document.getElementById("searchTerm");
+        var filter = input.value.toLowerCase();
+        var table = document.getElementById("userTable");
+        var rows = table.getElementsByTagName("tr");
+
+        for (var i = 1; i < rows.length; i++) {
+            var cells = rows[i].getElementsByTagName("td");
+            var match = false;
+
+            for (var j = 0; j < cells.length; j++) {
+                if (cells[j]) {
+                    var text = cells[j].innerText || cells[j].textContent;
+                    if (text.toLowerCase().indexOf(filter) > -1) {
+                        match = true;
+                        break;
+                    }
+                }
+            }
+
+            rows[i].style.display = match ? "" : "none";
+        }
+    }
+
+    function openDetailsModal(firstName, lastName, dob, gender) {
+        document.getElementById("detailFirstName").innerText = firstName;
+        document.getElementById("detailLastName").innerText = lastName;
+        document.getElementById("detailDOB").innerText = dob;
+        document.getElementById("detailGender").innerText = gender;
+    }
+</script>
