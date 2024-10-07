@@ -18,9 +18,7 @@ namespace User_Management.Controllers
             }
         public ActionResult ResetPassword(string token)
         {
-            // Optionally, validate the token here
-
-            // Return the view, but no need to create a separate model
+          
             return View();
         }
 
@@ -33,10 +31,6 @@ namespace User_Management.Controllers
                 ViewBag.Message = "Passwords do not match.";
                 return View();
             }
-
-            // Here you can implement your logic to update the user's password
-            // Example: UpdatePassword(token, newPassword);
-
             ViewBag.Message = "Your password has been reset successfully!";
             return RedirectToAction("Index"); // Redirect to a confirmation page or login
         }

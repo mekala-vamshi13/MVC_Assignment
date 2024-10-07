@@ -219,10 +219,6 @@ namespace User_Management.Controllers
                 ViewBag.Message = "Invalid user.";
                 return View();
             }
-
-            // You can also validate the token here if necessary
-
-            // Return the view for the user to reset the password
             return View(userDetail);
         }
 
